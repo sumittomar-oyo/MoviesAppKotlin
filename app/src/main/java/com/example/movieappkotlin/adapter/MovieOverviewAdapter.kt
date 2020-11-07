@@ -50,6 +50,5 @@ class MovieOverviewAdapter(var context: Activity, movieList: ArrayList<Movie>) :
 
     init {
         this.movieList = movieList
-        Log.e("MovieList2", "" + movieList.size)
     }
 }

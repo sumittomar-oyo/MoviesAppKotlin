@@ -1,6 +1,10 @@
 package com.example.movieappkotlin.view
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieappkotlin.R
 import com.example.movieappkotlin.adapter.MovieListAdapter
+import com.example.movieappkotlin.utilities.NetworkChangeReceiver
 import com.example.movieappkotlin.view_model.MovieListViewModel
 import com.example.movieappkotlin.view_model.MovieListViewModelFactory
 
@@ -22,6 +27,8 @@ class MovieListView : AppCompatActivity() {
     private lateinit var adapter: MovieListAdapter
     private lateinit var movieListViewModal: MovieListViewModel
     private lateinit var CLICKED_BUTTON: String
+    private lateinit var context : Context
+    private lateinit var mNetworkReceiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +45,39 @@ class MovieListView : AppCompatActivity() {
 
         Toast.makeText(this, CLICKED_BUTTON, Toast.LENGTH_LONG).show()
 
-        Log.e("ewfqefqw","frqwfa")
         initialization()
         getMovieArticles()
+        mNetworkReceiver = MyReciever()
+        registerNetworkBroadcast();
+    }
+
+    inner class MyReciever : NetworkChangeReceiver() {
+        override fun DoWhat() {
+            val intent = Intent(context, MovieListView::class.java)
+            intent.putExtra("CLICKED_BUTTON", CLICKED_BUTTON)
+            startActivity(intent)
+        }
+    }
+
+    private fun registerNetworkBroadcast() {
+        registerReceiver(mNetworkReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+    }
+
+    protected fun unregisterNetworkChanges() {
+        try {
+            unregisterReceiver(mNetworkReceiver)
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterNetworkChanges()
     }
 
     private fun initialization() {
+        context = this
         my_recycler_view = findViewById<View>(R.id.movie_list_view) as RecyclerView
         layoutManager = LinearLayoutManager(this@MovieListView)
         my_recycler_view.layoutManager = layoutManager

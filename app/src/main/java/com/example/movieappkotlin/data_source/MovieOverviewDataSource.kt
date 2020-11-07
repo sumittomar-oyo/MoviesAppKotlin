@@ -3,11 +3,9 @@ package com.example.movieappkotlin.data_source
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.example.movieappkotlin.data_source.db.DatabaseClient
-import com.example.movieappkotlin.data_source.db.MovieEntity
 import java.util.ArrayList
 
 
-import android.content.Context
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.Toast
@@ -23,19 +21,19 @@ class MovieOverviewDataSource {
   fun fetchfromRoom(application: Application,movieLiveData: MutableLiveData<ArrayList<Movie>>) {
         Toast.makeText(application, "In rooom", Toast.LENGTH_LONG).show()
         val thread = Thread {
-            val movies: List<MovieEntity> =
+            val movies: List<Movie> =
                 DatabaseClient.getInstance(application)!!.appDatabase.movieDao()!!.all
-            Log.e("In rroomm", movies.toString())
             var movieList: ArrayList<Movie>  = ArrayList<Movie>()
-            for (movieEntity in movies) {
-                val repo = Movie()
-                repo.id = movieEntity.id
-                repo.title = movieEntity.title
-                repo.overview = movieEntity.overview
-                repo.backdrop_path = movieEntity.backdrop_path
-                repo.poster_path = movieEntity.poster_path
-                movieList.add(repo)
-            }
+//            for (movieEntity in movies) {
+//                val repo = Movie()
+//                repo.id = movieEntity.id
+//                repo.title = movieEntity.title
+//                repo.overview = movieEntity.overview
+//                repo.backdrop_path = movieEntity.backdrop_path
+//                repo.poster_path = movieEntity.poster_path
+//                movieList.add(repo)
+//            }
+            movieList.addAll(movies)
             movieLiveData.postValue(movieList)
         }
         thread.start()
@@ -78,7 +76,7 @@ class MovieOverviewDataSource {
                 //creating a task
                 DatabaseClient.getInstance(application)!!.appDatabase.movieDao()!!.delete()
                 for (i in movieList.indices) {
-                    val movieEntity = MovieEntity()
+                    val movieEntity= Movie()
                     movieEntity.id = (movieList[i].id)
                     movieEntity.overview = (movieList[i].overview)
                     movieEntity.backdrop_path = (movieList[i].backdrop_path)

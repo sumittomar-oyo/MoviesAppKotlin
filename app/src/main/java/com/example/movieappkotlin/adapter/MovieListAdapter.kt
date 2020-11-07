@@ -30,7 +30,6 @@ class MovieListAdapter(private val mCtx: Context) :
             viewHolder.movieTitle.text = movie.title
             viewHolder.movieId.text = movie.id.toString() + ""
             viewHolder.movieOverView.text = movie.overview
-            Log.e("rrr", MovieConstants.BASE_IMAGE + movie.poster_path)
             Glide.with(mCtx)
                 .load(MovieConstants.BASE_IMAGE + movie.poster_path)
                 .into(viewHolder.imgViewMoviesCover)

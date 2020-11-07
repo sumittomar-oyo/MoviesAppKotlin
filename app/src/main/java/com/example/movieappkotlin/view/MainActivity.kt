@@ -1,10 +1,14 @@
 package com.example.movieappkotlin.view
 
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Intent
+import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,8 +22,8 @@ import com.example.movieappkotlin.R
 import com.example.movieappkotlin.adapter.MovieOverviewAdapter
 import com.example.movieappkotlin.adapter.MoviePagerAdapter
 import com.example.movieappkotlin.model.Movie
+import com.example.movieappkotlin.utilities.NetworkChangeReceiver
 import com.example.movieappkotlin.utilities.SliderTimer
-import com.example.movieappkotlin.view_model.MovieOverviewViewModel
 import com.example.movieappkotlin.view_model.MovieOverviewViewModel2
 import java.util.*
 
@@ -35,12 +39,38 @@ class MainActivity : AppCompatActivity() , LifecycleOwner {
     private lateinit var viewPager: ViewPager
     private lateinit var moviePagerAdapter:MoviePagerAdapter
     private lateinit var timer: Timer
+    private lateinit var mNetworkReceiver: BroadcastReceiver
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initialize()
+        mNetworkReceiver = MyReciever()
+        registerNetworkBroadcast();
+
+    }
+    inner class MyReciever : NetworkChangeReceiver() {
+        override fun DoWhat() {
+            val intent = Intent(context, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 
+    private fun registerNetworkBroadcast() {
+        registerReceiver(mNetworkReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+    }
+
+    protected fun unregisterNetworkChanges() {
+        try {
+            unregisterReceiver(mNetworkReceiver)
+        } catch (e: IllegalArgumentException) {
+            e.printStackTrace()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterNetworkChanges()
+    }
     private fun initialize() {
         context = this;
         popularButton = findViewById(R.id.main_popular_btn)
@@ -89,11 +119,7 @@ class MainActivity : AppCompatActivity() , LifecycleOwner {
         moviePagerAdapter = MoviePagerAdapter(context, movieList)
         viewPager.adapter = moviePagerAdapter
         popularOverview.adapter = movieOverviewAdapter
-        Log.e("size", "" + movieList.size)
         timer.scheduleAtFixedRate(SliderTimer(this@MainActivity, viewPager, 20), 5000, 5000)
     }
-
-
-
 
 }

@@ -1,7 +1,6 @@
 package com.example.movieappkotlin.data_source
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
@@ -21,13 +20,14 @@ class MovieListDataSourceFactory(var context: Context, var CLICKED_BUTTON: Strin
 
     override fun create(): DataSource<Int, Movie>? {
         //getting our data source object
-        val movieApiDataSource = MovieApiListDataSource(context, CLICKED_BUTTON)
 
-        //posting the data source to get the values
-        itemLiveDataSource.postValue(movieApiDataSource)
+            val movieApiDataSource = MovieApiListDataSource(context, CLICKED_BUTTON)
 
-        //returning the data source
-        return movieApiDataSource
+            //posting the data source to get the values
+            itemLiveDataSource.postValue(movieApiDataSource)
+
+            //returning the data source
+            return movieApiDataSource
     }
 
     //getter for itemlivedatasource

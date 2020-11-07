@@ -32,7 +32,6 @@ class MovieOverviewViewModel(application: Application) : AndroidViewModel(applic
                             val movieResponse: MovieResponse =
                                     gson.fromJson(response.toString(), MovieResponse::class.java)
                             movieLiveData.setValue(movieResponse.movies as ArrayList<Movie>)
-                            Log.e("INRESPONSE", "sidnfsd")
                         }
                     } catch (e: Exception) {
                         Log.e("error", e.toString())

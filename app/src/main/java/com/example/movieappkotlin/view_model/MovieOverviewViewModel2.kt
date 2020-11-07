@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.movieappkotlin.data_source.MovieOverviewDataSource
 import com.example.movieappkotlin.model.Movie
+import com.example.movieappkotlin.utilities.CheckNetworkConnectivity
 import java.util.*
 
 class MovieOverviewViewModel2(application: Application) :
@@ -18,13 +19,11 @@ class MovieOverviewViewModel2(application: Application) :
         get() = movieLiveData
 
     fun init(application: Application) {
-        movieLiveData.setValue(movieList)
+        movieLiveData.value = movieList
         var mdb: MovieOverviewDataSource  = MovieOverviewDataSource()
 
-        val cm =
-            application.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val activeNetwork = cm.activeNetworkInfo
-        if (activeNetwork != null && activeNetwork.isConnectedOrConnecting) {
+        val connectivity = CheckNetworkConnectivity().check(application)
+        if (connectivity) {
             mdb.fetchfromServer(application,movieLiveData)
         } else {
             mdb.fetchfromRoom(application,movieLiveData)

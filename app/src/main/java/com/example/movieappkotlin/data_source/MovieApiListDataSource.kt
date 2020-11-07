@@ -43,6 +43,7 @@ class MovieApiListDataSource internal constructor(var context: Context, CLICKED_
             Toast.makeText(context, "Hello Javatpoint start", Toast.LENGTH_SHORT).show()
             Log.e("error first", error.toString())
         }
+        stringReq.setShouldCache(false)
         VolleySingleton.getInstance(context).requestQueue.add(stringReq)
     }
 

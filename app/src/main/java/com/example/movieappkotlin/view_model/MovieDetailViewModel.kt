@@ -18,7 +18,6 @@ class MovieDetailViewModal(application: Application, movieId: String?) :
     var movie: MovieDetailed? = null
     fun init(application: Application?, movieId: String?) {
         movieMutableLiveData = MutableLiveData()
-        Log.e("Movvvii", "" + movieId)
         movie = MovieDetailed()
         movieMutableLiveData!!.value = movie
         populateList(application, movieId)
@@ -33,7 +32,6 @@ class MovieDetailViewModal(application: Application, movieId: String?) :
                 try {
                     if (response != null) {
                         val gson = GsonBuilder().create()
-                        Log.e("here", "here")
                         movie = gson.fromJson(response.toString(), MovieDetailed::class.java)
                         movieMutableLiveData!!.postValue(movie)
                     }

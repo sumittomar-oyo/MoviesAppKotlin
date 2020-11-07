@@ -29,8 +29,6 @@ class MoviePagerAdapter(private val activity: Activity, movies: ArrayList<Movie>
         textView1.text = movies[position].title
         textView2.text = movies[position].overview
         textView3.text = movies[position].id.toString()
-
-        Log.e("comisndfs","dsifnsd");
         Glide.with(activity)
                 .load(MovieConstants.BASE_IMAGE + movies[position].poster_path)
                 .into(imageView)
