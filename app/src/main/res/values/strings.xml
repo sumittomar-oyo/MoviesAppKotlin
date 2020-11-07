@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MovieAppKotlin</string>
+    <string name="main_most_popular">Most Popular</string>
+    <string name="main_see_all">See All</string>
+    <string name="main_now_playing">Now Playing</string>
+    <string name="main_top_rated">Top Rated</string>
+
+</resources>

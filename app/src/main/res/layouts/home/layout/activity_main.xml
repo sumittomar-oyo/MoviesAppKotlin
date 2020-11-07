@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black"
+    tools:context=".view.MainActivity">
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/main_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/main_popular_widget"
+        android:layout_below="@id/main_viewpager">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/main_most_popular"
+                android:textColor="@color/white"
+                android:gravity="center_vertical"
+                android:textSize="25sp"
+                android:maxLines="1">
+            </TextView>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            </TextView>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/main_popular_btn"
+                android:textColor="@color/purple_700"
+                android:background="@android:color/transparent"
+                android:text="@string/main_see_all" />
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:scrollbars="horizontal"
+            android:id="@+id/main_popular_movie_overview">
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+    </LinearLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/main_now_playing"
+        android:id="@+id/main_now_playing_btn"
+        android:layout_below="@id/main_popular_widget"
+        android:drawableLeft="@drawable/ic_baseline_play_arrow_24"
+        android:textAlignment="textStart"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_rating_btn"
+        android:layout_below="@id/main_now_playing_btn"
+        android:drawableLeft="@drawable/ic_baseline_trending_up_24"
+        android:text="@string/main_top_rated"
+        android:textAlignment="textStart"/>
+</RelativeLayout>
