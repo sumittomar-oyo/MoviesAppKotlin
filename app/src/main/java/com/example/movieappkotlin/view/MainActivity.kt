@@ -20,6 +20,7 @@ import com.example.movieappkotlin.adapter.MoviePagerAdapter
 import com.example.movieappkotlin.model.Movie
 import com.example.movieappkotlin.utilities.SliderTimer
 import com.example.movieappkotlin.view_model.MovieOverviewViewModel
+import com.example.movieappkotlin.view_model.MovieOverviewViewModel2
 import java.util.*
 
 
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() , LifecycleOwner {
     private lateinit var nowPlayingButton: Button
     private lateinit var ratingButton: Button
     private lateinit var popularOverview: RecyclerView
-    private lateinit var movieOverviewViewModel: MovieOverviewViewModel
+    private lateinit var movieOverviewViewModel: MovieOverviewViewModel2
     private lateinit var viewPager: ViewPager
     private lateinit var moviePagerAdapter:MoviePagerAdapter
     private lateinit var timer: Timer
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() , LifecycleOwner {
                 false
         )
 
-        movieOverviewViewModel = ViewModelProviders.of(this)[MovieOverviewViewModel::class.java]
+        movieOverviewViewModel = ViewModelProviders.of(this)[MovieOverviewViewModel2::class.java]
         movieOverviewViewModel.movieLiveData.observe(this, movieListUpdateObserver)
         timer = Timer()
 
